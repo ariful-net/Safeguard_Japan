@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeGuard Japan & Relief Portal</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Leaflet Map CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans min-h-screen flex flex-col">
+
+    <!-- Header Navigation -->
+    <header class="border-b border-slate-800 bg-slate-950/80 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-shield-halved text-red-500 text-2xl"></i>
+                <h1 class="text-xl font-bold tracking-wide">SafeGuard <span class="text-red-500">Japan</span></h1>
+            </div>
+            
+            <div class="flex items-center space-x-6">
+                <nav class="hidden md:flex space-x-6 text-sm font-medium">
+                    <a href="index.html" class="text-red-400 font-semibold">Home</a>
+                    <a href="shelter.html" class="hover:text-red-400 transition">Shelters</a>
+                    <a href="request.html" class="hover:text-red-400 transition">Request Relief</a>
+                    <a href="dashboard.html" class="hover:text-red-400 transition">Dashboard</a>
+                </nav>
+                <select id="langSelect" onchange="changeLanguage()" class="bg-slate-800 border border-slate-700 text-xs text-slate-200 rounded-lg px-2.5 py-1.5 focus:outline-none">
+                    <option value="en">English</option>
+                    <option value="jp">日本語</option>
+                    <option value="bn">বাংলা</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <!-- Emergency Live Banner -->
+    <section class="bg-red-950/40 border-b border-red-800/50 p-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <span class="relative flex h-3 w-3">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                </span>
+                <p id="alertMsg" class="text-sm font-medium text-red-200">Loading Live JMA Weather & Earthquake Alert...</p>
+            </div>
+            <button onclick="sendQuickSOS()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-1.5 rounded-md font-semibold text-xs transition shadow-lg shadow-red-600/30">
+                <i class="fa-solid fa-bell mr-1"></i> Quick SOS
+            </button>
+        </div>
+    </section>
+
+    <!-- Main Content Grid -->
+    <main class="max-w-7xl mx-auto px-4 py-8 flex-1 grid grid-cols-1 lg:grid-cols-3 gap-8 w-full">
+        <!-- Interactive Map -->
+        <div class="lg:col-span-2 bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden flex flex-col h-[500px]">
+            <div class="p-4 border-b border-slate-800 flex justify-between items-center">
+                <h2 class="font-semibold text-slate-200"><i class="fa-solid fa-map-location-dot text-red-500 mr-2"></i>Live Evacuation Map</h2>
+                <span class="text-xs text-slate-400">GPS Active</span>
+            </div>
+            <div id="map" class="w-full flex-1 z-10"></div>
+        </div>
+
+        <!-- Safety Status & Quick Request Overview -->
+        <div class="bg-slate-950 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between">
+            <div>
+                <h2 class="text-lg font-bold text-slate-100 mb-2" id="statusTitle">Report Your Safety Status</h2>
+                <p class="text-xs text-slate-400 mb-6">Inform emergency responders & family members instantly.</p>
+
+                <div class="space-y-4">
+                    <button onclick="updateSafetyStatus('SAFE')" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-xl flex items-center justify-center space-x-2 transition">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>I AM SAFE</span>
+                    </button>
+                    <button onclick="updateSafetyStatus('NEED_HELP')" class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 rounded-xl flex items-center justify-center space-x-2 transition">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <span>I NEED HELP</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-slate-900 flex justify-between items-center text-xs text-slate-500">
+                <span>Offline Support: <strong class="text-emerald-500">Active</strong></span>
+                <i class="fa-solid fa-wifi text-emerald-500"></i>
+            </div>
+        </div>
+    </main>
+
+    <!-- Leaflet JS & Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/map.js"></script>
+</body>
+</html>
